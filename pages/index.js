@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { AppBar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import Footer from "./components/footer";
 
 const useStyles = makeStyles({
   appBar: {
@@ -26,6 +27,7 @@ export default function Home() {
   return (
     <>
       <AppBar className={classes.appBar}></AppBar>
+      <Footer/>
     </>
   );
 }
