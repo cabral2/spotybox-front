@@ -1,6 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { AppBar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
@@ -23,9 +20,10 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const classes = useStyles();
+
   return (
     <>
-      <AppBar className={classes.appBar}></AppBar>
+      <AppBar className={classes.appBar}>Amorant</AppBar>      
     </>
   );
 }
