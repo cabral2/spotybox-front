@@ -8,7 +8,11 @@ body {
   background-color: rgb(60, 60, 67);
 }
 
-a {
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
   color: inherit;
   text-decoration: none;
 }
