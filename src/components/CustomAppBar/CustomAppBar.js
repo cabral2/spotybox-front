@@ -38,6 +38,7 @@ const useStyles = makeStyles({
     marginLeft: ".5rem",
     display: "flex",
     fontSize: "1.25rem",
+    alignItems: "center",
   },
   logButton: {
     borderColor: "white",
