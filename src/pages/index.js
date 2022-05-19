@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <>
-      <AppBar className={classes.appBar}>Amorant</AppBar>      
+      <AppBar className={classes.appBar}>Amorant</AppBar>
     </>
   );
 }
