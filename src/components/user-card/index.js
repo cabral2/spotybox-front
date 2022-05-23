@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 
-import defaultProfile from './profile-1.jpg';
+import defaultProfile from '../../assets/pictures/profile-1.jpg';
 import ButtonSpoty from "../button";
 
 const useStyles = makeStyles({
