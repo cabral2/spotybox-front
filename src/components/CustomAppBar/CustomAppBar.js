@@ -55,7 +55,7 @@ export default function CustomAppBar() {
   const { theme, themeName, toggleTheme } = useAppThemeContext();
   const classes = useStyles();
   return (
-    <AppBar className={classes.appBar} color={primary}>
+    <AppBar className={classes.appBar} color={"primary"}>
       <div className={classes.logoContainer}>
         <Avatar
           className={classes.mainIcon}
