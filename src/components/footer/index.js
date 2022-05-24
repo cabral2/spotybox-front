@@ -13,9 +13,7 @@ const userStyles = makeStyles({
     alignItems: "center",
     bottom: 0,
     height: 70,
-    width: "100%",
-    // backgroundColor: 'black',
-    // color: "rgba(255, 255, 255, .6)",
+    width: "100vw",
   },
   text: {
     paddingLeft: 20,
