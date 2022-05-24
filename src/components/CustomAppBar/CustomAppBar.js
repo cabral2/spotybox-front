@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { AppBar, Avatar, Button } from "@mui/material";
+import { AppBar, Avatar, Button, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
+import { useAppThemeContext } from "../../theme/ThemeContext";
 
 const useStyles = makeStyles({
   appBar: {
@@ -11,8 +12,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    backgroundColor: "black",
-    color: "white",
+    position: "sticky",
   },
   logoContainer: {
     display: "flex",
@@ -22,10 +22,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-around",
     flex: "1",
+    alignItems: "center",
   },
   navRoute: {
     flex: "1",
-    color: "white",
     alignItems: "center",
   },
   mainIcon: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   logButton: {
-    borderColor: "white",
+    // borderColor: "white",
     flex: "1",
     maxWidth: ".25rem",
     height: "1.5rem",
@@ -52,9 +52,10 @@ const useStyles = makeStyles({
 });
 
 export default function CustomAppBar() {
+  const { theme, themeName, toggleTheme } = useAppThemeContext();
   const classes = useStyles();
   return (
-    <AppBar className={classes.appBar}>
+    <AppBar className={classes.appBar} color={"primary"}>
       <div className={classes.logoContainer}>
         <Avatar
           className={classes.mainIcon}
@@ -78,11 +79,16 @@ export default function CustomAppBar() {
         <Link className={classNames(classes.navRoute)} href="/">
           About
         </Link>
-        <Button variant="outlined" className={classes.logButton}>
+        <Button
+          variant="outlined"
+          className={classes.logButton}
+          color="primary"
+        >
           <Link className={classNames(classes.navRoute)} href="/">
             Log in
           </Link>
         </Button>
+        <Switch defaultChecked onChange={toggleTheme} color="secondary" />
       </div>
     </AppBar>
   );
