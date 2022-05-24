@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
-@import url('https://fonts.google.com/specimen/Source+Code+Pro?query=Source+Code+Pro');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap");
+@import url("https://fonts.google.com/specimen/Source+Code+Pro?query=Source+Code+Pro");
 
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: "Roboto", sans-serif;
-  background-color: rgb(20, 24, 28);
 }
 
 a,
@@ -14,7 +13,6 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: inherit;
   text-decoration: none;
 }
 
@@ -23,14 +21,14 @@ a:active {
 }
 
 .text-primary {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-weight: 500;
   font-size: 18px;
   color: #000000;
 }
 
 .text-secondary {
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
   font-weight: 400;
   font-size: 14px;
   color: #666666;
