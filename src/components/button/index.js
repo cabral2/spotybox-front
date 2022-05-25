@@ -5,7 +5,7 @@ const buttonType = (props) => {
   if (props.unfollow)
     return {
       value: "Unfollow",
-      color: 'white',
+      color: 'secondary',
       backgroundColor: '#2D2D2D',
       borderColor: '#A0A0A0',
       borderWidth: 2,
@@ -16,7 +16,7 @@ const buttonType = (props) => {
   if (props.blockUser)
     return {
       value: "Block User",
-      color: 'white',
+      color: 'secondary',
       backgroundColor: '#2D2D2D',
       borderColor: 'red',
       borderWidth: 2,
@@ -29,14 +29,14 @@ const buttonType = (props) => {
 }
 
 export default function ButtonSpoty(props) {
-  const {value, color, backgroundColor, borderColor, borderWidth, width, borderRadius, onClick} = buttonType(props);
-  
-  return(
-    <Button 
-      variant="outlined" 
+  const { value, color, backgroundColor, borderColor, borderWidth, width, borderRadius, onClick } = buttonType(props);
+
+  return (
+    <Button
+      variant="outlined"
+      color={color}
       style={{
         backgroundColor,
-        color,
         borderColor,
         borderWidth,
         width,
