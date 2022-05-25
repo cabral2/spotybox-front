@@ -79,6 +79,9 @@ export default function CustomAppBar() {
         <Link className={classNames(classes.navRoute)} href="/">
           About
         </Link>
+        <Link className={classNames(classes.navRoute)} href="/settings">
+          Settings
+        </Link>
         <Button
           variant="outlined"
           className={classes.logButton}
