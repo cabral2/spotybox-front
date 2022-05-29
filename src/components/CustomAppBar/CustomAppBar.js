@@ -6,56 +6,68 @@ import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
 import { useAppThemeContext } from "../../theme/ThemeContext";
 
-const useStyles = makeStyles({
-  appBar: {
-    height: "4rem",
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-    position: "sticky",
-  },
-  logoContainer: {
-    display: "flex",
-    flex: "2",
-  },
-  navContainer: {
-    display: "flex",
-    justifyContent: "space-around",
-    flex: "1",
-    alignItems: "center",
-  },
-  navRoute: {
-    flex: "1",
-    alignItems: "center",
-  },
-  mainIcon: {
-    marginLeft: "1rem",
-    color: "green",
-    backgroundColor: "green",
-    alignItems: "center",
-  },
-  mainName: {
-    marginLeft: ".5rem",
-    display: "flex",
-    fontSize: "1.25rem",
-    alignItems: "center",
-  },
-  logButton: {
-    // borderColor: "white",
-    flex: "1",
-    maxWidth: ".25rem",
-    height: "1.5rem",
-    fontSize: ".75rem",
-    margin: 0,
-    padding: 0,
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    appBar: {
+      height: "4rem",
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "row",
+      position: "sticky",
+      backgroundColor: theme?.palette?.background?.footer,
+    },
+    logoContainer: {
+      display: "flex",
+      flex: "2",
+    },
+    navContainer: {
+      display: "flex",
+      justifyContent: "space-around",
+      flex: "1",
+      alignItems: "center",
+    },
+    navRoute: {
+      flex: "1",
+      alignItems: "center",
+      color: theme?.palette?.primary?.contrastText,
+      "&:link": {
+        color: theme?.palette?.primary?.contrastText,
+      },
+      "&:visited": {
+        color: theme?.palette?.primary?.contrastText,
+      },
+      textDecoration: "none",
+    },
+    mainIcon: {
+      marginLeft: "1rem",
+      color: "green",
+      backgroundColor: "green",
+      alignItems: "center",
+    },
+    mainName: {
+      marginLeft: ".5rem",
+      display: "flex",
+      fontSize: "1.25rem",
+      alignItems: "center",
+    },
+    logButton: {
+      // borderColor: "white",
+      flex: "1",
+      maxWidth: ".25rem",
+      height: "1.5rem",
+      fontSize: ".75rem",
+      margin: 0,
+      padding: 0,
+    },
+  };
 });
 
 export default function CustomAppBar() {
   const { theme, themeName, toggleTheme } = useAppThemeContext();
+
   const classes = useStyles();
   return (
-    <AppBar className={classes.appBar} color={"primary"}>
+    <AppBar className={classes.appBar}>
       <div className={classes.logoContainer}>
         <Avatar
           className={classes.mainIcon}
@@ -70,7 +82,7 @@ export default function CustomAppBar() {
         <Link className={classNames(classes.navRoute)} href="/">
           Home
         </Link>
-        <Link className={classNames(classes.navRoute)} href="/">
+        <Link className={classNames(classes.navRoute)} href="/albuns">
           Albuns
         </Link>
         <Link className={classNames(classes.navRoute)} href="/">
