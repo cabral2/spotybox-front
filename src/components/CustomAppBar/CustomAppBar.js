@@ -76,7 +76,7 @@ export default function CustomAppBar() {
         <div className={classes.mainName}>SpotyBox</div>
       </div>
       <div className={classes.navContainer}>
-        <Link className={classNames(classes.navRoute)} href="/">
+        <Link className={classNames(classes.navRoute)} href="/profile">
           My Profile
         </Link>
         <Link className={classNames(classes.navRoute)} href="/">
@@ -84,12 +84,6 @@ export default function CustomAppBar() {
         </Link>
         <Link className={classNames(classes.navRoute)} href="/albuns">
           Albuns
-        </Link>
-        <Link className={classNames(classes.navRoute)} href="/">
-          Artists
-        </Link>
-        <Link className={classNames(classes.navRoute)} href="/">
-          About
         </Link>
         <Link className={classNames(classes.navRoute)} href="/settings">
           Settings
@@ -99,7 +93,7 @@ export default function CustomAppBar() {
           className={classes.logButton}
           color="primary"
         >
-          <Link className={classNames(classes.navRoute)} href="/">
+          <Link className={classNames(classes.navRoute)} href="/login">
             Log in
           </Link>
         </Button>
