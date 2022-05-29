@@ -36,7 +36,8 @@ export const AppThemeProvider = ({ children }) => {
         <Box
           width="100%"
           height="100%"
-          minHeight="100vh"
+          minHeight="89vh"
+          marginBottom="11vh"
           bgcolor={theme?.palette?.background?.default}
         >
           {children}

@@ -7,12 +7,13 @@ import { useAppThemeContext } from "../../theme/ThemeContext";
 
 const userStyles = makeStyles({
   footer: {
-    position: "sticky",
+    position: "fixed",
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
     bottom: 0,
-    height: 70,
+    left: 0,
+    height: "11vh",
     width: "100%",
   },
   text: {
