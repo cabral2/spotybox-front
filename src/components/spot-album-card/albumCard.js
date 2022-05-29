@@ -40,12 +40,14 @@ export default function AlbumCard({ title, albumName, image }) {
             />
             <CardContent className={classes.cardContent}>
                 <Typography
+                    color="secondary"
                     letterSpacing="0.1rem"
                     className="text-primary"
                 >
                     {title}
                 </Typography>
                 <Typography
+                    color="secondary"
                     letterSpacing="0.1rem"
                     className="text-secondary"
                 >
