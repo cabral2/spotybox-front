@@ -104,8 +104,8 @@ export default function Profile() {
         <div className={classes.tabsContainer}>
           {tab === 1 ? <FavoriteAlbunsTab /> : <></>}
           {tab === 2 ? <ReviewsTab /> : <></>}
-          {tab === 3 ? <FollowTab type={"Followers"} /> : <></>}
-          {tab === 4 ? <FollowTab type={"Following"} /> : <></>}
+          {tab === 3 ? <FollowTab type={"blockUser"} /> : <></>}
+          {tab === 4 ? <FollowTab type={"unfollow"} /> : <></>}
         </div>
       </div>
     </div>
