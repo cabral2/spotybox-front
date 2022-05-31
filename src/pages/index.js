@@ -1,18 +1,12 @@
 import { makeStyles } from "@mui/styles";
-import UserCard from "../components/user-card";
+import HomePage from "./homePage";
 const useStyles = makeStyles({});
 
 export default function Home() {
-  const classes = useStyles();
 
   return (
     <div>
-      <UserCard
-        name="Davi Emediato"
-        location="Belo Horizonte - MG"
-        description="Apreciador  da natureza."
-        unfollow
-      />
+      <HomePage/>
     </div>
   );
 }
