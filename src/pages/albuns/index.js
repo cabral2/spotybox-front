@@ -1,6 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import { TextField, Typography, CardMedia, Divider } from "@mui/material";
 import ReviewCard from "../../components/spot-review-card/reviewCard";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import EditIcon from "@mui/icons-material/Edit";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -36,9 +38,16 @@ const useStyles = makeStyles((theme) => {
       height: "4rem",
       backgroundColor: theme?.palette?.subtitle?.color,
       borderRadius: "10px",
+      display: "flex",
+      justifyContent: "space-evenly",
+      alignItems: "center",
     },
     divider: {
       color: theme?.palette?.divider?.color,
+    },
+    icons: {
+      cursor: "pointer",
+      color: theme?.palette?.primary?.main,
     },
   };
 });
@@ -93,7 +102,10 @@ export default function Albuns() {
             </Typography>
           </div>
         </div>
-        <div className={classes.buttonsContainer}></div>
+        <div className={classes.buttonsContainer}>
+          <FavoriteIcon fontSize="large" className={classes.icons} />
+          <EditIcon fontSize="large" className={classes.icons} />
+        </div>
       </div>
       <div className={classes.bottomContainer}>
         <Typography className={classes.divider}>Reviews</Typography>

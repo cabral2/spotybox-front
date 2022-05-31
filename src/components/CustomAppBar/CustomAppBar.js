@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { AppBar, Avatar, Button, Switch } from "@mui/material";
+import { AppBar, Avatar, Button, Switch, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import classNames from "classnames";
 import { useAppThemeContext } from "../../theme/ThemeContext";
@@ -29,13 +29,6 @@ const useStyles = makeStyles((theme) => {
     navRoute: {
       flex: "1",
       alignItems: "center",
-      color: theme?.palette?.primary?.contrastText,
-      "&:link": {
-        color: theme?.palette?.primary?.contrastText,
-      },
-      "&:visited": {
-        color: theme?.palette?.primary?.contrastText,
-      },
       textDecoration: "none",
     },
     mainIcon: {
@@ -51,13 +44,20 @@ const useStyles = makeStyles((theme) => {
       alignItems: "center",
     },
     logButton: {
-      // borderColor: "white",
+      borderColor: theme?.palette?.primary?.contrastText,
       flex: "1",
       maxWidth: ".25rem",
       height: "1.5rem",
-      fontSize: ".75rem",
+      // fontSize: ".75rem",
       margin: 0,
       padding: 0,
+      color: "black",
+    },
+    linkText: {
+      cursor: "pointer",
+    },
+    logInText: {
+      textTransform: "capitalize",
     },
   };
 });
@@ -77,16 +77,24 @@ export default function CustomAppBar() {
       </div>
       <div className={classes.navContainer}>
         <Link className={classNames(classes.navRoute)} href="/profile">
-          My Profile
+          <Typography className={classes.linkText} color={"secondary"}>
+            My Profile
+          </Typography>
         </Link>
         <Link className={classNames(classes.navRoute)} href="/">
-          Home
+          <Typography className={classes.linkText} color={"secondary"}>
+            Home
+          </Typography>
         </Link>
         <Link className={classNames(classes.navRoute)} href="/albuns">
-          Albuns
+          <Typography className={classes.linkText} color={"secondary"}>
+            Albuns
+          </Typography>
         </Link>
         <Link className={classNames(classes.navRoute)} href="/settings">
-          Settings
+          <Typography className={classes.linkText} color={"secondary"}>
+            Settings
+          </Typography>
         </Link>
         <Button
           variant="outlined"
@@ -94,7 +102,9 @@ export default function CustomAppBar() {
           color="primary"
         >
           <Link className={classNames(classes.navRoute)} href="/login">
-            Log in
+            <Typography color={"secondary"} className={classes.logInText}>
+              Log in
+            </Typography>
           </Link>
         </Button>
         <Switch defaultChecked onChange={toggleTheme} color="secondary" />

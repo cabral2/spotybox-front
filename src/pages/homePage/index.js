@@ -8,32 +8,35 @@ import { makeStyles } from "@mui/styles";
 import AlbumCard from "../../components/spot-album-card/albumCard";
 
 const userStyles = makeStyles({
+  container: {
+    width: "100%",
+  },
   paper: {
     backgroundImage: `url('https://raw.githubusercontent.com/cabral2/spotybox-front/main/src/assets/pictures/capa.jpg')`,
-    backgroundPosition: 'center',
+    backgroundPosition: "center",
     height: 300,
-    width: window.screen.width,
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
+    // width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
   },
-  phrase:{
-    textAlign: 'center',
+  phrase: {
+    textAlign: "center",
     fontWeight: 300,
   },
-  button:{
-    backgroundColor: '#027C00',
+  button: {
+    backgroundColor: "#027C00",
     fontSize: 20,
     width: 400,
     "&:hover": {
-      backgroundColor: '#025000'
+      backgroundColor: "#025000",
     },
-  }
+  },
 });
 
 const Phrase = (props) => {
   const styles = userStyles();
-  return(
+  return (
     <Grid item xs={4}>
       <Typography className={styles.phrase} color="secondary" variant="h4">
         {props.phrase}
@@ -43,7 +46,7 @@ const Phrase = (props) => {
 };
 
 const ListAlbums = () => {
-  return(
+  return (
     <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
         <Grid item key={index}>
@@ -60,48 +63,48 @@ const ListAlbums = () => {
 
 const userFavoriteAlbuns = [
   {
-    name: 'Stadium Arcadium',
-    artist: 'Red hot Chili Peppers',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Stadium Arcadium",
+    artist: "Red hot Chili Peppers",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Clube da Esquina',
-    artist: 'Milton Nascimento',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Clube da Esquina",
+    artist: "Milton Nascimento",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Heresia',
-    artist: 'Djonga',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Heresia",
+    artist: "Djonga",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Manual',
-    artist: 'Boogarins',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Manual",
+    artist: "Boogarins",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Manual',
-    artist: 'Boogarins',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Manual",
+    artist: "Boogarins",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Manual',
-    artist: 'Boogarins',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+    name: "Manual",
+    artist: "Boogarins",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
   },
   {
-    name: 'Manual',
-    artist: 'Boogarins',
-    image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
-  }
-]
+    name: "Manual",
+    artist: "Boogarins",
+    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
+  },
+];
 
 export default function HomePage(props) {
   const styles = userStyles();
 
-  return(
+  return (
     <Fragment>
-      <Grid 
+      <Grid
         container
         spacing={4}
         direction="column"
@@ -117,9 +120,9 @@ export default function HomePage(props) {
               justifyContent="center"
               alignItems="center"
             >
-              <Phrase phrase="Follow albums you’ve listened."/>
-              <Phrase phrase="Save those you want to listen."/>
-              <Phrase phrase="Tell your friends what’s good."/>
+              <Phrase phrase="Follow albums you’ve listened." />
+              <Phrase phrase="Save those you want to listen." />
+              <Phrase phrase="Tell your friends what’s good." />
               <Grid item>
                 <Button className={styles.button} color="secondary">
                   Get Started - Its Free
@@ -134,7 +137,7 @@ export default function HomePage(props) {
           </Typography>
         </Grid>
         <Grid item>
-          <ListAlbums/>
+          <ListAlbums />
         </Grid>
       </Grid>
     </Fragment>
