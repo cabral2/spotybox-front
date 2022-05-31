@@ -5,6 +5,8 @@ import { Button, Paper, Typography } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 
+import AlbumCard from "../../components/spot-album-card/albumCard";
+
 const userStyles = makeStyles({
   paper: {
     backgroundImage: `url('https://raw.githubusercontent.com/cabral2/spotybox-front/main/src/assets/pictures/capa.jpg')`,
@@ -42,14 +44,15 @@ const Phrase = (props) => {
 
 const ListAlbums = () => {
   return(
-    <Grid container>
+    <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
-        <AlbumCard
-          key={index}
-          title={album.name}
-          albumName={album.artist}
-          image={album.image}
-        />
+        <Grid item key={index}>
+          <AlbumCard
+            title={album.name}
+            albumName={album.artist}
+            image={album.image}
+          />
+        </Grid>
       ))}
     </Grid>
   );
@@ -100,7 +103,7 @@ export default function HomePage(props) {
     <Fragment>
       <Grid 
         container
-        spacing={2}
+        spacing={4}
         direction="column"
         justifyContent="center"
         alignItems="center"
