@@ -32,6 +32,9 @@ export default function InputIcon(props) {
             ),
             className: styles.text,
           }}
+          fullWidth
+          value={props.value}
+          onChange={props.onChange}
           variant="outlined"
           size="small"
           type={props.password ? "password" : "text"}
