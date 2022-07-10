@@ -1,3 +1,4 @@
+import { Link, CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -38,24 +39,28 @@ export default function AlbumCard({ title, albumName, image }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.cardContainer}>
-      <CardMedia className={classes.cardMedia} component="img" image={image} />
-      <CardContent className={classes.cardContent}>
-        <Typography
-          color="secondary"
-          letterSpacing="0.1rem"
-          //   className="text-primary"
-        >
-          {title}
-        </Typography>
-        <Typography
-          color="secondary"
-          letterSpacing="0.1rem"
-          className={classes.subtitle}
-        >
-          {albumName}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Link href={'/albuns'}>
+      <Card className={classes.cardContainer}>
+        <CardActionArea>
+          <CardMedia className={classes.cardMedia} component="img" image={image} />
+          <CardContent className={classes.cardContent}>
+            <Typography
+              color="secondary"
+              letterSpacing="0.1rem"
+            //   className="text-primary"
+            >
+              {title}
+            </Typography>
+            <Typography
+              color="secondary"
+              letterSpacing="0.1rem"
+              className={classes.subtitle}
+            >
+              {albumName}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Link>
   );
 }
