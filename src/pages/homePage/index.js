@@ -10,13 +10,15 @@ import AlbumCard from "../../components/spot-album-card/albumCard";
 const userFavoriteAlbuns = [];
 
 const getSeveralAlbuns = async () => {
+  const access_token = ''
+
   const config = {
     method: 'get',
     url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer BQDEkqM5blbIgFwmUyq9if42Y_qpQZyzlLrXWBbL2yw_utF8mxv8HiS5KiCJ9ztk8gNps2J9sCiIpR6B_Mx_oi2DZAmP48DbsOdJLH_XWTgWrraKtRv49WwwiEX74umDpIeDD067kkHGOPMQC3IJBqgO2Nga1ZuXIMnXxe5TDyXRtx_lh_a_MIEI9L7lvhdd5yw'
+      'Authorization': 'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU'
     }
   };
 
