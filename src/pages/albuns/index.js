@@ -3,6 +3,7 @@ import { TextField, Typography, CardMedia, Divider } from "@mui/material";
 import ReviewCard from "../../components/spot-review-card/reviewCard";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -54,11 +55,19 @@ const useStyles = makeStyles((theme) => {
 
 export default function Albuns() {
   const classes = useStyles();
-  const imageLink =
-    "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg";
-  const albumAuthor = "Sticky Fingers";
-  const albumTitle = "Caress your soul";
-  const albumDate = "2013";
+  const [albumTitle, setAlbumTitle] = useState();
+  const [albumAuthor, setAlbumAuthor] = useState();
+  const [imageLink, setImageLink] = useState();
+  const [albumDate, setAlbumDate] = useState();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setAlbumTitle(params.get("title"));
+    setAlbumAuthor(params.get("albumName"));
+    setImageLink(params.get("image"));
+    setAlbumDate(params.get("albumDate"));
+  }, [albumAuthor, albumDate, albumTitle, imageLink]);
+
   const userReviews = [
     {
       reviewTitle: "teste1",
