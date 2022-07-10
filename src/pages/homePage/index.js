@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography, Link } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 
@@ -129,9 +129,11 @@ export default function HomePage(props) {
               <Phrase phrase="Save those you want to listen." />
               <Phrase phrase="Tell your friends what’s good." />
               <Grid item>
-                <Button className={styles.button} color="secondary">
-                  Get Started - Its Free
-                </Button>
+                <Link href="/create-account">
+                  <Button className={styles.button} color="secondary">
+                    Get Started - Its Free
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </Paper>
