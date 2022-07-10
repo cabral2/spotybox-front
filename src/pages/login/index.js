@@ -12,7 +12,6 @@ import Cookie from 'js-cookie';
 import Router from 'next/router';
 import { makeStyles } from '@mui/styles';
 
-import Footer from '../../components/footer';
 import { Button, Checkbox, Link, Typography } from '@mui/material';
 import InputIcon from '../../components/inputIcon';
 
@@ -68,9 +67,10 @@ export default function LoginPage(props) {
   const [errorMessage, setError] = useState();
   const [showAlert, setShowAlert] = useState();
 
-  const keepConnected = 'Matenha-se conectado';
-  const messageLogin = 'Bem-vindo à melhor comunidade para amantes da música.';
-  const forgotMyPass = 'Esqueci minha senha';
+  const keepConnected = 'Stay connected';
+  const messageLogin = 'Welcome to the best community for music lovers.';
+  const forgotMyPass = 'Forgot my password';
+  const creatAccount = 'Create Account';
 
   useEffect(() => {
     setCookie();
@@ -161,6 +161,12 @@ export default function LoginPage(props) {
             </Link>
           </Grid>
 
+          <Grid item xs={1}>
+            <Link href="/create-account">
+              <Typography className={styles.text}>{creatAccount}</Typography>
+            </Link>
+          </Grid>
+
           {showAlert && (
             <Grid item xs={1}>
               <Alert
@@ -175,8 +181,6 @@ export default function LoginPage(props) {
           )}
         </Grid>
       </Paper>
-
-      <Footer />
     </Fragment>
   );
 }
