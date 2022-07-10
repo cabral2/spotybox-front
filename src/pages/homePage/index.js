@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import { Button, Paper, Typography } from '@mui/material';
@@ -7,45 +7,6 @@ import Link from 'next/link';
 import { makeStyles } from '@mui/styles';
 
 import AlbumCard from '../../components/spot-album-card/albumCard';
-
-const userFavoriteAlbuns = [];
-
-const getSeveralAlbuns = async () => {
-  const access_token = '';
-
-  const config = {
-    method: 'get',
-    url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization:
-        'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU',
-    },
-  };
-
-  axios(config)
-    .then(function (response) {
-      const albuns = response.data.albums;
-
-      albuns.forEach((album) => {
-        const albumName = album.name;
-        const artistName = album.artists[0].name;
-        const albumImage = album.images[0].url;
-        const albumDate = album.release_date;
-
-        userFavoriteAlbuns.push({
-          name: albumName,
-          artist: artistName,
-          image: albumImage,
-          date: albumDate,
-        });
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
 
 const userStyles = makeStyles({
   container: {
@@ -85,7 +46,7 @@ const Phrase = (props) => {
   );
 };
 
-const ListAlbums = () => {
+const ListAlbums = ({ userFavoriteAlbuns }) => {
   return (
     <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
@@ -97,12 +58,55 @@ const ListAlbums = () => {
   );
 };
 
+
 export default function HomePage(props) {
   const styles = userStyles();
+  const [userFavoriteAlbuns, setFavoriteAlbuns] = useState([]);
+
+  const getSeveralAlbuns = async () => {
+    const access_token = '';
+
+    const config = {
+      method: 'get',
+      url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization:
+          'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU',
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        const albuns = response.data.albums;
+
+        albuns.forEach((album) => {
+          const albumName = album.name;
+          const artistName = album.artists[0].name;
+          const albumImage = album.images[0].url;
+          const albumDate = album.release_date;
+
+          setFavoriteAlbuns((currentAlbuns) => {
+            return [...currentAlbuns, {
+              name: albumName,
+              artist: artistName,
+              image: albumImage,
+              date: albumDate,
+            }];
+          });
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
-    getSeveralAlbuns();
-  }, []);
+    if (userFavoriteAlbuns.length === 0) {
+      getSeveralAlbuns();
+    }
+  }, [userFavoriteAlbuns]);
 
   return (
     <Fragment>
@@ -129,7 +133,7 @@ export default function HomePage(props) {
           </Typography>
         </Grid>
         <Grid item>
-          <ListAlbums />
+          <ListAlbums userFavoriteAlbuns={userFavoriteAlbuns} />
         </Grid>
       </Grid>
     </Fragment>
