@@ -22,36 +22,43 @@ export default function FavoriteAlbunsTab() {
       name: 'Stadium Arcadium',
       artist: 'Red hot Chili Peppers',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Clube da Esquina',
       artist: 'Milton Nascimento',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Heresia',
       artist: 'Djonga',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
+      date: '01/01/2020',
     }
   ]
 
@@ -64,6 +71,7 @@ export default function FavoriteAlbunsTab() {
           title={album.name}
           albumName={album.artist}
           image={album.image}
+          date={album.date}
         />
       ))}
     </div>

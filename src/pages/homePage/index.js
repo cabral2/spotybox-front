@@ -1,11 +1,47 @@
-import React, { Fragment } from "react";
-
+import React, { Fragment, useEffect } from "react";
+import axios from "axios";
 import Grid from "@mui/material/Grid";
 import { Button, Paper, Typography } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 
 import AlbumCard from "../../components/spot-album-card/albumCard";
+
+const userFavoriteAlbuns = [];
+
+const getSeveralAlbuns = async () => {
+  const config = {
+    method: 'get',
+    url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer BQDEkqM5blbIgFwmUyq9if42Y_qpQZyzlLrXWBbL2yw_utF8mxv8HiS5KiCJ9ztk8gNps2J9sCiIpR6B_Mx_oi2DZAmP48DbsOdJLH_XWTgWrraKtRv49WwwiEX74umDpIeDD067kkHGOPMQC3IJBqgO2Nga1ZuXIMnXxe5TDyXRtx_lh_a_MIEI9L7lvhdd5yw'
+    }
+  };
+
+  axios(config)
+    .then(function (response) {
+      const albuns = response.data.albums;
+
+      albuns.forEach((album) => {
+        const albumName = album.name;
+        const artistName = album.artists[0].name;
+        const albumImage = album.images[0].url;
+        const albumDate = album.release_date;
+
+        userFavoriteAlbuns.push({
+          name: albumName,
+          artist: artistName,
+          image: albumImage,
+          date: albumDate
+        });
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
 const userStyles = makeStyles({
   container: {
@@ -54,6 +90,7 @@ const ListAlbums = () => {
             title={album.name}
             albumName={album.artist}
             image={album.image}
+            date={album.date}
           />
         </Grid>
       ))}
@@ -61,46 +98,12 @@ const ListAlbums = () => {
   );
 };
 
-const userFavoriteAlbuns = [
-  {
-    name: "Stadium Arcadium",
-    artist: "Red hot Chili Peppers",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Clube da Esquina",
-    artist: "Milton Nascimento",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Heresia",
-    artist: "Djonga",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Manual",
-    artist: "Boogarins",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Manual",
-    artist: "Boogarins",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Manual",
-    artist: "Boogarins",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-  {
-    name: "Manual",
-    artist: "Boogarins",
-    image: "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg",
-  },
-];
-
 export default function HomePage(props) {
   const styles = userStyles();
+
+  useEffect(() => {
+    getSeveralAlbuns();
+  }, []);
 
   return (
     <Fragment>

@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export default function AlbumCard({ title, albumName, image }) {
+export default function AlbumCard({ title, albumName, image, date }) {
   const classes = useStyles();
 
   return (
-    <Link href={'/albuns'}>
+    <Link href={`/albuns?title=${title}&albumName=${albumName}&image=${image}&albumDate=${date}`}>
       <Card className={classes.cardContainer}>
         <CardActionArea>
           <CardMedia className={classes.cardMedia} component="img" image={image} />
