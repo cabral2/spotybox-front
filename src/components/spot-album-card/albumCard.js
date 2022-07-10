@@ -1,33 +1,34 @@
-import { Link, CardActionArea } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/styles";
+import { CardActionArea } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme) => {
   return {
     cardContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      justifyContent: "center",
-      width: "16rem",
-      height: "16rem",
-      borderRadius: "0.7rem",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      width: '16rem',
+      height: '16rem',
+      borderRadius: '0.7rem',
       backgroundColor: theme?.palette?.primary?.main,
     },
     cardMedia: {
-      height: "10rem",
-      width: "100%",
+      height: '10rem',
+      width: '100%',
     },
     cardContent: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      width: "100%",
-      height: "10rem",
-      overflow: "hidden",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      width: '100%',
+      height: '10rem',
+      overflow: 'hidden',
     },
     subtitle: {
       color: theme?.palette?.subtitle?.color,
@@ -47,15 +48,11 @@ export default function AlbumCard({ title, albumName, image, date }) {
             <Typography
               color="secondary"
               letterSpacing="0.1rem"
-            //   className="text-primary"
+              //   className="text-primary"
             >
               {title}
             </Typography>
-            <Typography
-              color="secondary"
-              letterSpacing="0.1rem"
-              className={classes.subtitle}
-            >
+            <Typography color="secondary" letterSpacing="0.1rem" className={classes.subtitle}>
               {albumName}
             </Typography>
           </CardContent>

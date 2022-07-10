@@ -1,25 +1,27 @@
-import React, { Fragment, useEffect } from "react";
-import axios from "axios";
-import Grid from "@mui/material/Grid";
-import { Button, Paper, Typography, Link } from "@mui/material";
+import React, { Fragment, useEffect } from 'react';
+import axios from 'axios';
+import Grid from '@mui/material/Grid';
+import { Button, Paper, Typography } from '@mui/material';
+import Link from 'next/link';
 
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles';
 
-import AlbumCard from "../../components/spot-album-card/albumCard";
+import AlbumCard from '../../components/spot-album-card/albumCard';
 
 const userFavoriteAlbuns = [];
 
 const getSeveralAlbuns = async () => {
-  const access_token = ''
+  const access_token = '';
 
   const config = {
     method: 'get',
     url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU'
-    }
+      Authorization:
+        'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU',
+    },
   };
 
   axios(config)
@@ -36,38 +38,38 @@ const getSeveralAlbuns = async () => {
           name: albumName,
           artist: artistName,
           image: albumImage,
-          date: albumDate
+          date: albumDate,
         });
       });
     })
     .catch(function (error) {
       console.log(error);
     });
-}
+};
 
 const userStyles = makeStyles({
   container: {
-    width: "100%",
+    width: '100%',
   },
   paper: {
     backgroundImage: `url('https://raw.githubusercontent.com/cabral2/spotybox-front/main/src/assets/pictures/capa.jpg')`,
-    backgroundPosition: "center",
+    backgroundPosition: 'center',
     height: 300,
     // width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
   },
   phrase: {
-    textAlign: "center",
+    textAlign: 'center',
     fontWeight: 300,
   },
   button: {
-    backgroundColor: "#027C00",
+    backgroundColor: '#027C00',
     fontSize: 20,
     width: 400,
-    "&:hover": {
-      backgroundColor: "#025000",
+    '&:hover': {
+      backgroundColor: '#025000',
     },
   },
 });
@@ -88,12 +90,7 @@ const ListAlbums = () => {
     <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
         <Grid item key={index}>
-          <AlbumCard
-            title={album.name}
-            albumName={album.artist}
-            image={album.image}
-            date={album.date}
-          />
+          <AlbumCard title={album.name} albumName={album.artist} image={album.image} date={album.date} />
         </Grid>
       ))}
     </Grid>
@@ -109,22 +106,10 @@ export default function HomePage(props) {
 
   return (
     <Fragment>
-      <Grid
-        container
-        spacing={4}
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container spacing={4} direction="column" justifyContent="center" alignItems="center">
         <Grid item className={styles.container}>
           <Paper className={styles.paper}>
-            <Grid
-              container
-              spacing={5}
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Grid container spacing={5} direction="row" justifyContent="center" alignItems="center">
               <Phrase phrase="Follow albums you’ve listened." />
               <Phrase phrase="Save those you want to listen." />
               <Phrase phrase="Tell your friends what’s good." />
