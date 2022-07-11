@@ -24,7 +24,7 @@ const get = async (address, params = null) => {
 const post = async (address, data) => {
   const url = `${baseUrl}${address}`;
   console.log('url');
-  axios
+  await axios
     .post(url, data)
     .then(function (response) {
       console.log(response);

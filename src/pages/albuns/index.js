@@ -14,7 +14,7 @@ import ReviewCard from '../../components/spot-review-card/reviewCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
-import { post } from '../../api-consumer';
+import { get, post } from '../../api-consumer';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -91,6 +91,8 @@ export default function Albuns() {
   const [open, setOpen] = useState(false);
   const [reviewInput, setReviewInput] = useState('');
   const [albumId, setAlbumId] = useState();
+  const [userData, setUserData] = useState();
+  const [albumReviews, setAlbumReviews] = useState([]);
   const [albumFavorite, setAlbumFavorite] = useState(false);
 
   const handleReviewInputChange = (ev) => {
@@ -108,9 +110,10 @@ export default function Albuns() {
   };
 
   const handleSubmit = async () => {
-    if (!albumId) return;
+    if (!albumId || !userData || !userData.id) return;
 
-    await post('review', { userId: '1', albumId: albumId, review: reviewInput });
+    await post('review', { userId: userData.id, albumId: albumId, review: reviewInput });
+    setAlbumReviews((await get(`review/album/${albumId}`)) ?? []);
     setOpen(false);
     setReviewInput('');
   };
@@ -171,7 +174,23 @@ export default function Albuns() {
     setImageLink(params.get('image'));
     setAlbumDate(params.get('albumDate'));
     setAlbumId(params.get('id'));
-  }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
+
+    const handleGetUserData = async () => {
+      const userEmail = Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+      const data = await get('user/email', { email: userEmail });
+      setUserData(data ? data[0] : null);
+    };
+
+    handleGetUserData();
+  }, []);
+
+  useEffect(() => {
+    const handleGetAlbumReviews = async () => {
+      if (albumId) setAlbumReviews((await get(`review/album/${albumId}`)) ?? []);
+    };
+
+    handleGetAlbumReviews();
+  }, [albumId]);
 
   useEffect(() => {
     handleFavorite();
@@ -261,13 +280,13 @@ export default function Albuns() {
           <Typography className={classes.divider}>Reviews</Typography>
           <Divider className={classes.divider} />
           <div className={classes.reviewsContainer}>
-            {userReviews.map((review, index) => (
+            {albumReviews.map((review, index) => (
               <ReviewCard
                 key={index}
-                reviewTitle={review.reviewTitle}
-                reviewerName={review.reviewerName}
-                reviewDescription={review.reviewDescription}
-                profilePhoto={review.profilePhoto}
+                reviewTitle={`${review.first_name} ${review.last_name}`}
+                reviewerName={review.localization}
+                reviewDescription={review.review}
+                profilePhoto={'https://www.vagalume.com.br/boogarins/discografia/manual.jpg'}
               />
             ))}
           </div>
