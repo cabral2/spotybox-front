@@ -51,7 +51,7 @@ const ListAlbums = ({ userFavoriteAlbuns }) => {
     <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
         <Grid item key={index}>
-          <AlbumCard title={album.name} albumName={album.artist} image={album.image} date={album.date} />
+          <AlbumCard title={album.name} albumName={album.artist} image={album.image} date={album.date} id={album.id} />
         </Grid>
       ))}
     </Grid>
@@ -101,6 +101,7 @@ export default function HomePage(props) {
               const artistName = album.artists[0].name;
               const albumImage = album.images[0].url;
               const albumDate = album.release_date;
+              const albumId = album.id;
 
               setFavoriteAlbuns((currentAlbuns) => {
                 return [...currentAlbuns, {
@@ -108,6 +109,7 @@ export default function HomePage(props) {
                   artist: artistName,
                   image: albumImage,
                   date: albumDate,
+                  id: albumId,
                 }];
               });
             });
