@@ -80,6 +80,7 @@ export default function LoginPage(props) {
     if (Cookie.get(process.env.NEXT_PUBLIC_AUTH_COOKIE)) {
       Cookie.remove(process.env.NEXT_PUBLIC_AUTH_COOKIE);
       Cookie.remove(process.env.NEXT_PUBLIC_USER_COOKIE);
+      Cookie.remove(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
       goTo();
     }
   }, []);
@@ -109,6 +110,7 @@ export default function LoginPage(props) {
     if (token !== '' && token !== null) {
       Cookie.set(process.env.NEXT_PUBLIC_AUTH_COOKIE, token, { expires: 2 });
       Cookie.set(process.env.NEXT_PUBLIC_USER_COOKIE, userData.first_name, { expires: 2 });
+      Cookie.set(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE, userData.email, { expires: 2 });
       goTo();
     }
   };
