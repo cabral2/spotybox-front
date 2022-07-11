@@ -15,6 +15,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import { post } from '../../api-consumer';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -73,6 +75,10 @@ const useStyles = makeStyles((theme) => {
     dialogTextField: {
       width: '100%',
     },
+    favoriteAlbumIcon: {
+      cursor: 'pointer',
+      color: '#ba0c00',
+    },
   };
 });
 
@@ -85,6 +91,7 @@ export default function Albuns() {
   const [open, setOpen] = useState(false);
   const [reviewInput, setReviewInput] = useState('');
   const [albumId, setAlbumId] = useState();
+  const [albumFavorite, setAlbumFavorite] = useState(false);
 
   const handleReviewInputChange = (ev) => {
     setReviewInput(ev.target.value);
@@ -107,6 +114,56 @@ export default function Albuns() {
     setOpen(false);
     setReviewInput('');
   };
+
+  const handleUser = async () => {
+    let baseURL =
+      process.env.NEXT_PUBLIC_URL_API + 'user/email?email=' + Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const user = await axios
+      .get(baseURL)
+      .then((response) => response.data[0])
+      .catch((error) => console.error(error.message));
+
+    return user;
+  };
+
+  const handleFavorite = async () => {
+    const user = await handleUser();
+    let baseURL = process.env.NEXT_PUBLIC_URL_API + `favorites/user_favorite?user_id=${user.id}&album_id=${albumId}`;
+    const album = await axios
+      .get(baseURL)
+      .then((response) => response.data)
+      .catch((err) => console.error(err.message));
+    if (album) {
+      setAlbumFavorite(true);
+    }
+  };
+
+  const markAsFavoriteAlbum = async () => {
+    const user = await handleUser();
+    const baseURL = process.env.NEXT_PUBLIC_URL_API + 'favorites';
+    await axios.post(baseURL, { userId: user.id, albumId: albumId });
+  };
+
+  const markOffAsFavoriteAlbum = async () => {
+    const user = await handleUser();
+    const baseURL = process.env.NEXT_PUBLIC_URL_API + 'favorites';
+    try {
+      await axios.delete(baseURL, { data: { userId: user.id, albumId: albumId } });
+    } catch (error) {
+      return console.error(error.message);
+    }
+  };
+
+  const changeFavoriteAlbum = () => {
+    if (!albumFavorite) {
+      markAsFavoriteAlbum();
+      setAlbumFavorite(true);
+    } else {
+      markOffAsFavoriteAlbum();
+      setAlbumFavorite(false);
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAlbumTitle(params.get('title'));
@@ -115,6 +172,10 @@ export default function Albuns() {
     setAlbumDate(params.get('albumDate'));
     setAlbumId(params.get('id'));
   }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
+
+  useEffect(() => {
+    handleFavorite();
+  }, []);
 
   const userReviews = [
     {
@@ -188,7 +249,11 @@ export default function Albuns() {
             </div>
           </div>
           <div className={classes.buttonsContainer}>
-            <FavoriteIcon fontSize="large" className={classes.icons} />
+            <FavoriteIcon
+              fontSize="large"
+              className={albumFavorite ? classes.favoriteAlbumIcon : classes.icons}
+              onClick={changeFavoriteAlbum}
+            />
             <EditIcon fontSize="large" className={classes.icons} onClick={handleReviewClick} />
           </div>
         </div>
