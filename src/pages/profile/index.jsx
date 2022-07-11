@@ -1,18 +1,16 @@
 import { makeStyles } from "@mui/styles";
 import {
-  TextField,
-  Typography,
-  CardMedia,
-  Divider,
   Tabs,
   Tab,
 } from "@mui/material";
-import ReviewCard from "../../components/spot-review-card/reviewCard";
 import { useState } from "react";
 import FavoriteAlbunsTab from "../../components/FavoriteAlbunsTab";
 import ReviewsTab from "../../components/ReviewsTab";
 import FollowTab from "../../components/FollowTab";
 import ProfileHeader from "../../components/spot-profile-header/profileHeader";
+import { useEffect } from "react";
+import Cookie from 'js-cookie';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -67,10 +65,35 @@ export default function Profile() {
   const classes = useStyles();
   const imageLink =
     "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg";
-  const profileDescription = "Apenas o perfil de um jovem brasileiro";
-  const username = "Iury Zanonni";
-  const locale = "Belo Horizonte";
+  const [profileDescription, setProfileDescription] = useState("");
+  const [username, setUsername] = useState("");
+  const [locale, setLocale] = useState("");
   const [tab, setTab] = useState(1);
+
+  const getUserData = async () => {
+    const userEmail = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const baseURL = process.env.NEXT_PUBLIC_URL_API + 'user/email';
+
+    await axios
+      .get(baseURL, { params: { email: userEmail } })
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data[0])
+        setProfileDescription(data[0].bio);
+        setUsername(`${data[0].first_name} ${data[0].last_name}`);
+        setLocale(data[0].localization);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const user = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    if (user) {
+      getUserData();
+    }
+  }, [profileDescription, username, locale]);
 
   const handleTabChange = (_, newTab) => {
     setTab(newTab);
