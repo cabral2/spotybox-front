@@ -193,6 +193,10 @@ export default function Albuns() {
     handleGetAlbumReviews();
   }, [albumId]);
 
+  useEffect(() => {
+    handleFavorite();
+  }, [albumFavorite, albumId]);
+
   const userReviews = [
     {
       reviewTitle: 'teste1',
