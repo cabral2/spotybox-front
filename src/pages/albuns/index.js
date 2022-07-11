@@ -87,6 +87,7 @@ export default function Albuns() {
   const [reviewInput, setReviewInput] = useState('');
   const [albumId, setAlbumId] = useState();
   const [userData, setUserData] = useState();
+  const [albumReviews, setAlbumReviews] = useState([]);
 
   const handleReviewInputChange = (ev) => {
     setReviewInput(ev.target.value);
@@ -103,10 +104,10 @@ export default function Albuns() {
   };
 
   const handleSubmit = async () => {
-    console.log(userData);
     if (!albumId || !userData || !userData.id) return;
 
     await post('review', { userId: userData.id, albumId: albumId, review: reviewInput });
+    setAlbumReviews((await get(`review/album/${albumId}`)) ?? []);
     setOpen(false);
     setReviewInput('');
   };
@@ -121,15 +122,19 @@ export default function Albuns() {
     const handleGetUserData = async () => {
       const userEmail = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
       const data = await get('user/email', { email: userEmail });
-      setUserData(data[0]);
+      setUserData(data ? data[0] : null);
     };
 
+    handleGetUserData();
+  }, []);
+
+  useEffect(() => {
     const handleGetAlbumReviews = async () => {
-      if (albumId) await get(`review/album/${albumId}`);
+      if (albumId) setAlbumReviews((await get(`review/album/${albumId}`)) ?? []);
     };
 
-    if (!userData) handleGetUserData();
-  }, [albumId, userData]);
+    handleGetAlbumReviews();
+  }, [albumId]);
 
   const userReviews = [
     {
@@ -211,13 +216,13 @@ export default function Albuns() {
           <Typography className={classes.divider}>Reviews</Typography>
           <Divider className={classes.divider} />
           <div className={classes.reviewsContainer}>
-            {userReviews.map((review, index) => (
+            {albumReviews.map((review, index) => (
               <ReviewCard
                 key={index}
-                reviewTitle={review.reviewTitle}
-                reviewerName={review.reviewerName}
-                reviewDescription={review.reviewDescription}
-                profilePhoto={review.profilePhoto}
+                reviewTitle={`${review.first_name} ${review.last_name}`}
+                reviewerName={review.localization}
+                reviewDescription={review.review}
+                profilePhoto={'https://www.vagalume.com.br/boogarins/discografia/manual.jpg'}
               />
             ))}
           </div>
