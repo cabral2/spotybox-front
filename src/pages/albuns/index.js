@@ -14,7 +14,8 @@ import ReviewCard from '../../components/spot-review-card/reviewCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
-import { post } from '../../api-consumer';
+import { get, post } from '../../api-consumer';
+import Cookie from 'js-cookie';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -85,6 +86,7 @@ export default function Albuns() {
   const [open, setOpen] = useState(false);
   const [reviewInput, setReviewInput] = useState('');
   const [albumId, setAlbumId] = useState();
+  const [userData, setUserData] = useState();
 
   const handleReviewInputChange = (ev) => {
     setReviewInput(ev.target.value);
@@ -101,9 +103,10 @@ export default function Albuns() {
   };
 
   const handleSubmit = async () => {
-    if (!albumId) return;
+    console.log(userData);
+    if (!albumId || !userData || !userData.id) return;
 
-    await post('review', { userId: '1', albumId: albumId, review: reviewInput });
+    await post('review', { userId: userData.id, albumId: albumId, review: reviewInput });
     setOpen(false);
     setReviewInput('');
   };
@@ -114,7 +117,19 @@ export default function Albuns() {
     setImageLink(params.get('image'));
     setAlbumDate(params.get('albumDate'));
     setAlbumId(params.get('id'));
-  }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
+
+    const handleGetUserData = async () => {
+      const userEmail = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+      const data = await get('user/email', { email: userEmail });
+      setUserData(data[0]);
+    };
+
+    const handleGetAlbumReviews = async () => {
+      if (albumId) await get(`review/album/${albumId}`);
+    };
+
+    if (!userData) handleGetUserData();
+  }, [albumId, userData]);
 
   const userReviews = [
     {
