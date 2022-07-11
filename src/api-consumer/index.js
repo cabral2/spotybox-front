@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseUrl = "https://engsoft-clinica.vercel.app/api";
+const baseUrl = process.env.NEXT_PUBLIC_URL_API;
 
 const get = async (address, params = null) => {
-  let query = "?";
+  let query = '?';
   for (const key in params) {
     query += `${key}=${params[key]}&`;
   }
@@ -16,39 +16,40 @@ const get = async (address, params = null) => {
       return res ? res.data : null;
     })
     .catch(function (error) {
-      console.log("Get error");
+      console.log('Get error');
       console.error(error);
     });
 };
 
 const post = async (address, data) => {
-  const url = `${baseUrl}/${address}/insert`;
-  console.log("url");
+  const url = `${baseUrl}${address}`;
+  console.log('url');
   axios
     .post(url, data)
     .then(function (response) {
       console.log(response);
+      return response.data;
     })
     .catch(function (error) {
-      console.log("Post error");
+      console.log('Post error');
       console.error(error);
     });
 };
 
 const login = async (email, password) => {
   try {
-    const url = "/sessions";
+    const url = '/sessions';
     let response = await axios.post(`${baseUrl}${url}`, {
       email,
       password,
     });
 
-    console.log("RESPONSE");
+    console.log('RESPONSE');
     console.log(response);
     if (response.status === 201) {
       return {
         status: true,
-        message: "",
+        message: '',
       };
     }
     return {
@@ -58,11 +59,11 @@ const login = async (email, password) => {
   } catch (ex) {
     console.log(ex.response);
     console.log(ex.request);
-    console.log("LOGIN ERROR");
+    console.log('LOGIN ERROR');
     console.log(ex);
     return {
       status: false,
-      message: "Senha incorreta",
+      message: 'Senha incorreta',
     };
   }
 };
