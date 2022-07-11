@@ -23,12 +23,14 @@ export default function FavoriteAlbunsTab() {
       artist: 'Red hot Chili Peppers',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     },
     {
       name: 'Clube da Esquina',
       artist: 'Milton Nascimento',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     },
     {
       name: 'Heresia',
@@ -41,24 +43,28 @@ export default function FavoriteAlbunsTab() {
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     },
     {
       name: 'Manual',
       artist: 'Boogarins',
       image: 'https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg',
       date: '01/01/2020',
+      id: '1'
     }
   ]
 
@@ -72,6 +78,7 @@ export default function FavoriteAlbunsTab() {
           albumName={album.artist}
           image={album.image}
           date={album.date}
+          id={album.id}
         />
       ))}
     </div>

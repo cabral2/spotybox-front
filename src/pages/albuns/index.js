@@ -59,6 +59,7 @@ export default function Albuns() {
   const [albumAuthor, setAlbumAuthor] = useState();
   const [imageLink, setImageLink] = useState();
   const [albumDate, setAlbumDate] = useState();
+  const [albumId, setAlbumId] = useState();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -66,7 +67,8 @@ export default function Albuns() {
     setAlbumAuthor(params.get("albumName"));
     setImageLink(params.get("image"));
     setAlbumDate(params.get("albumDate"));
-  }, [albumAuthor, albumDate, albumTitle, imageLink]);
+    setAlbumId(params.get("id"));
+  }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
 
   const userReviews = [
     {
