@@ -195,7 +195,7 @@ export default function Albuns() {
 
   useEffect(() => {
     handleFavorite();
-  }, [albumFavorite, albumId]);
+  }, [albumId]);
 
   const userReviews = [
     {
