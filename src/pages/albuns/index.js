@@ -1,54 +1,77 @@
-import { makeStyles } from "@mui/styles";
-import { TextField, Typography, CardMedia, Divider } from "@mui/material";
-import ReviewCard from "../../components/spot-review-card/reviewCard";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import EditIcon from "@mui/icons-material/Edit";
-import { useEffect, useState } from "react";
+import { makeStyles } from '@mui/styles';
+import {
+  TextField,
+  Typography,
+  CardMedia,
+  Divider,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Button,
+} from '@mui/material';
+import ReviewCard from '../../components/spot-review-card/reviewCard';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import EditIcon from '@mui/icons-material/Edit';
+import { useEffect, useState } from 'react';
+import { post } from '../../api-consumer';
 
 const useStyles = makeStyles((theme) => {
   return {
     container: {
-      padding: "5vh 15vw 5vh 15vw",
+      padding: '5vh 15vw 5vh 15vw',
     },
     topContainer: {
-      display: "flex",
-      justifyContent: "space-between",
+      display: 'flex',
+      justifyContent: 'space-between',
     },
     bottomContainer: {
-      paddingTop: "1rem",
+      paddingTop: '1rem',
     },
     reviewsContainer: {
-      width: "90%",
-      margin: "auto",
+      width: '90%',
+      margin: 'auto',
     },
     imageCard: {
-      width: "15rem",
-      height: "15rem",
+      width: '15rem',
+      height: '15rem',
     },
     flex: {
-      display: "flex",
+      display: 'flex',
     },
     albumInfos: {
-      padding: "1rem 2rem",
+      padding: '1rem 2rem',
     },
     subtitle: {
       color: theme?.palette?.subtitle?.color,
     },
     buttonsContainer: {
-      width: "8rem",
-      height: "4rem",
+      width: '8rem',
+      height: '4rem',
       backgroundColor: theme?.palette?.subtitle?.color,
-      borderRadius: "10px",
-      display: "flex",
-      justifyContent: "space-evenly",
-      alignItems: "center",
+      borderRadius: '10px',
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
     },
     divider: {
       color: theme?.palette?.divider?.color,
     },
     icons: {
-      cursor: "pointer",
+      cursor: 'pointer',
       color: theme?.palette?.primary?.main,
+    },
+    dialogContentContainer: {
+      width: '30vw',
+    },
+    dialogPaper: {
+      backgroundColor: theme?.palette?.primary?.main,
+    },
+    reviewInput: {
+      color: theme?.palette?.primary?.contrastText,
+    },
+    dialogTextField: {
+      width: '100%',
     },
   };
 });
@@ -59,80 +82,132 @@ export default function Albuns() {
   const [albumAuthor, setAlbumAuthor] = useState();
   const [imageLink, setImageLink] = useState();
   const [albumDate, setAlbumDate] = useState();
+  const [open, setOpen] = useState(false);
+  const [reviewInput, setReviewInput] = useState('');
   const [albumId, setAlbumId] = useState();
 
+  const handleReviewInputChange = (ev) => {
+    setReviewInput(ev.target.value);
+  };
+
+  const handleReviewClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (_, reason) => {
+    if (reason && reason == 'backdropClick') return;
+    setOpen(false);
+    setReviewInput('');
+  };
+
+  const handleSubmit = async () => {
+    if (!albumId) return;
+
+    await post('review', { userId: '1', albumId: albumId, review: reviewInput });
+    setOpen(false);
+    setReviewInput('');
+  };
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setAlbumTitle(params.get("title"));
-    setAlbumAuthor(params.get("albumName"));
-    setImageLink(params.get("image"));
-    setAlbumDate(params.get("albumDate"));
-    setAlbumId(params.get("id"));
+    setAlbumTitle(params.get('title'));
+    setAlbumAuthor(params.get('albumName'));
+    setImageLink(params.get('image'));
+    setAlbumDate(params.get('albumDate'));
+    setAlbumId(params.get('id'));
   }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
 
   const userReviews = [
     {
-      reviewTitle: "teste1",
-      reviewerName: "Savinho",
+      reviewTitle: 'teste1',
+      reviewerName: 'Savinho',
       reviewDescription:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-      profilePhoto:
-        "https://www.vagalume.com.br/djonga/discografia/heresia.jpg",
+      profilePhoto: 'https://www.vagalume.com.br/djonga/discografia/heresia.jpg',
     },
     {
-      reviewTitle: "teste2",
-      reviewerName: "Davizao",
+      reviewTitle: 'teste2',
+      reviewerName: 'Davizao',
       reviewDescription:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-      profilePhoto:
-        "https://www.vagalume.com.br/boogarins/discografia/manual.jpg",
+      profilePhoto: 'https://www.vagalume.com.br/boogarins/discografia/manual.jpg',
     },
     {
-      reviewTitle: "teste3",
-      reviewerName: "Iuryzao",
+      reviewTitle: 'teste3',
+      reviewerName: 'Iuryzao',
       reviewDescription:
         "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable",
-      profilePhoto:
-        "https://www.vagalume.com.br/gusttavo-lima/discografia/o-embaixador.jpg",
+      profilePhoto: 'https://www.vagalume.com.br/gusttavo-lima/discografia/o-embaixador.jpg',
     },
   ];
 
   return (
-    <div className={classes.container}>
-      <div className={classes.topContainer}>
-        <div className={classes.flex}>
-          <CardMedia
-            className={classes.imageCard}
-            component="img"
-            image={imageLink}
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{ className: classes.dialogPaper }}
+      >
+        <DialogTitle id="alert-dialog-title" color={'secondary'}>
+          {'Review'}
+        </DialogTitle>
+        <DialogContent className={classes.dialogContentContainer}>
+          <TextField
+            id="outlined-multiline-flexible"
+            color="secondary"
+            variant="outlined"
+            focused
+            multiline
+            maxRows={4}
+            rows={4}
+            value={reviewInput}
+            onChange={handleReviewInputChange}
+            inputProps={{ className: classes.reviewInput }}
+            className={classes.dialogTextField}
           />
-          <div className={classes.albumInfos}>
-            <Typography color="secondary">{albumTitle}</Typography>
-            <Typography className={classes.subtitle}>
-              {albumAuthor} - {albumDate}
-            </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color={'secondary'}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color={'secondary'}>
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <div className={classes.container}>
+        <div className={classes.topContainer}>
+          <div className={classes.flex}>
+            <CardMedia className={classes.imageCard} component="img" image={imageLink} />
+            <div className={classes.albumInfos}>
+              <Typography color="secondary">{albumTitle}</Typography>
+              <Typography className={classes.subtitle}>
+                {albumAuthor} - {albumDate}
+              </Typography>
+            </div>
+          </div>
+          <div className={classes.buttonsContainer}>
+            <FavoriteIcon fontSize="large" className={classes.icons} />
+            <EditIcon fontSize="large" className={classes.icons} onClick={handleReviewClick} />
           </div>
         </div>
-        <div className={classes.buttonsContainer}>
-          <FavoriteIcon fontSize="large" className={classes.icons} />
-          <EditIcon fontSize="large" className={classes.icons} />
+        <div className={classes.bottomContainer}>
+          <Typography className={classes.divider}>Reviews</Typography>
+          <Divider className={classes.divider} />
+          <div className={classes.reviewsContainer}>
+            {userReviews.map((review, index) => (
+              <ReviewCard
+                key={index}
+                reviewTitle={review.reviewTitle}
+                reviewerName={review.reviewerName}
+                reviewDescription={review.reviewDescription}
+                profilePhoto={review.profilePhoto}
+              />
+            ))}
+          </div>
         </div>
       </div>
-      <div className={classes.bottomContainer}>
-        <Typography className={classes.divider}>Reviews</Typography>
-        <Divider className={classes.divider} />
-        <div className={classes.reviewsContainer}>
-          {userReviews.map((review, index) => (
-            <ReviewCard
-              key={index}
-              reviewTitle={review.reviewTitle}
-              reviewerName={review.reviewerName}
-              reviewDescription={review.reviewDescription}
-              profilePhoto={review.profilePhoto}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
