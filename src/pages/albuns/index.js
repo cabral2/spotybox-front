@@ -182,6 +182,7 @@ export default function Albuns() {
     };
 
     handleGetUserData();
+    handleFavorite();
   }, []);
 
   useEffect(() => {
@@ -191,10 +192,6 @@ export default function Albuns() {
 
     handleGetAlbumReviews();
   }, [albumId]);
-
-  useEffect(() => {
-    handleFavorite();
-  }, [albumFavorite]);
 
   const userReviews = [
     {
