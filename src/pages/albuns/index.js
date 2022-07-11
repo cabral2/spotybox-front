@@ -84,6 +84,7 @@ export default function Albuns() {
   const [albumDate, setAlbumDate] = useState();
   const [open, setOpen] = useState(false);
   const [reviewInput, setReviewInput] = useState('');
+  const [albumId, setAlbumId] = useState();
 
   const handleReviewInputChange = (ev) => {
     setReviewInput(ev.target.value);
@@ -100,7 +101,9 @@ export default function Albuns() {
   };
 
   const handleSubmit = async () => {
-    await post('review', { userId: '1', albumId: 'teste album id', review: reviewInput });
+    if (!albumId) return;
+
+    await post('review', { userId: '1', albumId: albumId, review: reviewInput });
     setOpen(false);
     setReviewInput('');
   };
@@ -110,7 +113,8 @@ export default function Albuns() {
     setAlbumAuthor(params.get('albumName'));
     setImageLink(params.get('image'));
     setAlbumDate(params.get('albumDate'));
-  }, [albumAuthor, albumDate, albumTitle, imageLink]);
+    setAlbumId(params.get('id'));
+  }, [albumAuthor, albumDate, albumTitle, imageLink, albumId]);
 
   const userReviews = [
     {

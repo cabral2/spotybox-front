@@ -11,7 +11,7 @@ const get = async (address, params = null) => {
   query = query.slice(0, -1);
 
   return axios
-    .get(`${baseUrl}/${address}${query}`)
+    .get(`${baseUrl}${address}${query}`)
     .then((res) => {
       return res ? res.data : null;
     })

@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export default function AlbumCard({ title, albumName, image, date }) {
+export default function AlbumCard({ title, albumName, image, date, id }) {
   const classes = useStyles();
 
   return (
-    <Link href={`/albuns?title=${title}&albumName=${albumName}&image=${image}&albumDate=${date}`}>
+    <Link href={`/albuns?title=${title}&albumName=${albumName}&image=${image}&albumDate=${date}&id=${id}`}>
       <Card className={classes.cardContainer}>
         <CardActionArea>
           <CardMedia className={classes.cardMedia} component="img" image={image} />
@@ -48,7 +48,7 @@ export default function AlbumCard({ title, albumName, image, date }) {
             <Typography
               color="secondary"
               letterSpacing="0.1rem"
-              //   className="text-primary"
+            //   className="text-primary"
             >
               {title}
             </Typography>

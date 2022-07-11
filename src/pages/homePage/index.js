@@ -51,7 +51,7 @@ const ListAlbums = ({ userFavoriteAlbuns }) => {
     <Grid container spacing={2}>
       {userFavoriteAlbuns.map((album, index) => (
         <Grid item key={index}>
-          <AlbumCard title={album.name} albumName={album.artist} image={album.image} date={album.date} />
+          <AlbumCard title={album.name} albumName={album.artist} image={album.image} date={album.date} id={album.id} />
         </Grid>
       ))}
     </Grid>
@@ -64,42 +64,63 @@ export default function HomePage(props) {
   const [userFavoriteAlbuns, setFavoriteAlbuns] = useState([]);
 
   const getSeveralAlbuns = async () => {
-    const access_token = '';
+    const client_id = 'e34d88ebda334b2c8fcac5fd7f03ca16';
+    const client_secret = '0f8d9746394c47c39e1c15878ce2eb42';
 
-    const config = {
-      method: 'get',
-      url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
+    const authOptions = {
+      method: 'post',
+      url: 'https://accounts.spotify.com/api/token',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization:
-          'Bearer BQDUDu4jrhhqhGF2E6DqHcWHi1jg8lURXD-XxMciVVgOa0XnEcddp6s5MoEgxpcegyywZUJ0zziAzKGTqsK_eVhdt8VfJETNVO3YjOk6L3KEsRy0BdiHzBg5l-Q7lR9frbpVihSQbPbAoGpF3UMWZiYDLRiymRfHG7zHdKV3Ff2g_jeGaDG-TWXmHfhodhhSxLU',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
       },
+      data: 'grant_type=client_credentials',
     };
 
-    axios(config)
+    axios(authOptions)
       .then(function (response) {
-        const albuns = response.data.albums;
+        const access_token = response.data.access_token;
 
-        albuns.forEach((album) => {
-          const albumName = album.name;
-          const artistName = album.artists[0].name;
-          const albumImage = album.images[0].url;
-          const albumDate = album.release_date;
+        const config = {
+          method: 'get',
+          url: 'https://api.spotify.com/v1/albums?ids=3THs8EgoGs9oSKahSlN4yP%2C2u5rfCD13KFohXHVteFx0Z%2C347XTcjmkfhb8kDLaMphpv%2C5risYG7klZCSLMNxB9dZhf%2C4mywaTqTdSJUikLyiVqjjX%2C4m2880jivSbbyEGAKfITCa%2C2noRn2Aes5aoNVsU6iWThc&market=ES',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization:
+              `Bearer ${access_token}`,
+          },
+        };
 
-          setFavoriteAlbuns((currentAlbuns) => {
-            return [...currentAlbuns, {
-              name: albumName,
-              artist: artistName,
-              image: albumImage,
-              date: albumDate,
-            }];
+        axios(config)
+          .then(function (response) {
+            const albuns = response.data.albums;
+
+            albuns.forEach((album) => {
+              const albumName = album.name;
+              const artistName = album.artists[0].name;
+              const albumImage = album.images[0].url;
+              const albumDate = album.release_date;
+              const albumId = album.id;
+
+              setFavoriteAlbuns((currentAlbuns) => {
+                return [...currentAlbuns, {
+                  name: albumName,
+                  artist: artistName,
+                  image: albumImage,
+                  date: albumDate,
+                  id: albumId,
+                }];
+              });
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
           });
-        });
       })
       .catch(function (error) {
         console.log(error);
-      });
+      })
   };
 
   useEffect(() => {

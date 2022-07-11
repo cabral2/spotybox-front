@@ -86,11 +86,11 @@ const Menus = (props) => {
           Home
         </Typography>
       </Link>
-      <Link className={classNames(classes.navRoute)} href="/albuns">
+      {/* <Link className={classNames(classes.navRoute)} href="/albuns">
         <Typography className={classes.linkText} color={'secondary'}>
           Albuns
         </Typography>
-      </Link>
+      </Link> */}
       <Link className={classNames(classes.navRoute)} href="/settings">
         <Typography className={classes.linkText} color={'secondary'}>
           Settings
