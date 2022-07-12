@@ -58,8 +58,6 @@ export default function ReviewsTab() {
         let artistName = '';
         let albumPhoto = '';
 
-        console.log(review)
-
         const authOptions = {
           method: 'post',
           url: 'https://accounts.spotify.com/api/token',
