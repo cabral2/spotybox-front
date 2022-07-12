@@ -48,7 +48,6 @@ export default function AlbumCard({ title, albumName, image, date, id }) {
             <Typography
               color="secondary"
               letterSpacing="0.1rem"
-            //   className="text-primary"
             >
               {title}
             </Typography>
