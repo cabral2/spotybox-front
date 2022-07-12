@@ -43,7 +43,7 @@ export default function FollowTab({ type, userId }) {
           unfollow={type === 'unfollow' ? true : false}
           blockUser={type === 'blockUser' && user.isBlock === 0 ? true : false}
           unblockUser={type === 'blockUser' && user.isBlock === 1 ? true : false}
-          imageUrl={user.imageUrl || 'https://noticias.gospelmais.com.br/files/2012/05/xaropinho.jpg'}
+          imageUrl={user['photo-url'] || 'https://noticias.gospelmais.com.br/files/2012/05/xaropinho.jpg'}
           onClick={() => {
             type === 'unfollow' ? unfollowUser(user) : blockUser(user);
           }}
