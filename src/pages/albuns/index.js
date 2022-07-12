@@ -240,12 +240,8 @@ export default function Albuns() {
             <CardMedia className={classes.imageCard} component="img" image={imageLink} />
             <div className={classes.albumInfos}>
               <Typography color="secondary">{albumTitle}</Typography>
-              <Typography className={classes.subtitle}>
-                {albumAuthor}
-              </Typography>
-              <Typography className={classes.subtitle}>
-                {albumDate}
-              </Typography>
+              <Typography className={classes.subtitle}>{albumAuthor}</Typography>
+              <Typography className={classes.subtitle}>{albumDate}</Typography>
             </div>
           </div>
           {isUserLoggedIn && (
@@ -269,7 +265,7 @@ export default function Albuns() {
                 reviewTitle={`${review.first_name} ${review.last_name}`}
                 reviewerName={review.localization}
                 reviewDescription={review.review}
-                profilePhoto={'https://www.vagalume.com.br/boogarins/discografia/manual.jpg'}
+                profilePhoto={review['photo-url']}
               />
             ))}
           </div>
