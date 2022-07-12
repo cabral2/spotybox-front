@@ -1,6 +1,9 @@
 import { makeStyles } from '@mui/styles';
 import { Divider } from "@mui/material";
 import ReviewCard from '../spot-review-card/reviewCard';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -23,33 +26,97 @@ const useStyles = makeStyles((theme) => {
 
 export default function ReviewsTab() {
   const classes = useStyles();
-  const userReviews = [
-    {
-      reviewTitle: "teste1",
-      reviewerName: "Savinho",
-      reviewDescription:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-      profilePhoto:
-        "https://www.vagalume.com.br/djonga/discografia/heresia.jpg",
-    },
-    {
-      reviewTitle: "teste2",
-      reviewerName: "Davizao",
-      reviewDescription:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-      profilePhoto:
-        "https://www.vagalume.com.br/boogarins/discografia/manual.jpg",
-    },
-    {
-      reviewTitle: "teste3",
-      reviewerName: "Iuryzao",
-      reviewDescription:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable",
-      profilePhoto:
-        "https://www.vagalume.com.br/gusttavo-lima/discografia/o-embaixador.jpg",
-    },
-  ];
+  const [userReviews, setUserReviews] = useState([]);
 
+  const handleUser = async () => {
+    let baseURL =
+      process.env.NEXT_PUBLIC_URL_API + 'user/email?email=' + Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const user = await axios
+      .get(baseURL)
+      .then((response) => response.data[0])
+      .catch((error) => console.error(error.message));
+
+    return user;
+  };
+
+  const getReviews = async () => {
+    const user = await handleUser();
+    let baseURL = process.env.NEXT_PUBLIC_URL_API + 'review/user/' + user.id;
+
+    const reviews = await axios
+      .get(baseURL)
+      .then((response) => response.data)
+      .catch((err) => console.error(err.message));
+
+    if (reviews) {
+      reviews.forEach((review) => {
+        const client_id = 'e34d88ebda334b2c8fcac5fd7f03ca16';
+        const client_secret = '0f8d9746394c47c39e1c15878ce2eb42';
+        const description = review.review;
+        const albumId = review.album_id;
+        let albumName = '';
+        let artistName = '';
+        let albumPhoto = '';
+
+        console.log(review)
+
+        const authOptions = {
+          method: 'post',
+          url: 'https://accounts.spotify.com/api/token',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
+          },
+          data: 'grant_type=client_credentials',
+        };
+
+        axios(authOptions)
+          .then(function (response) {
+            const access_token = response.data.access_token;
+
+            const config = {
+              method: 'get',
+              url: `https://api.spotify.com/v1/albums?ids=${albumId}&market=ES`,
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization:
+                  `Bearer ${access_token}`,
+              },
+            };
+
+            axios(config)
+              .then(function (response) {
+                const album = response.data.albums[0];
+                albumName = album.name;
+                artistName = album.artists[0].name;
+                albumPhoto = album.images[0].url;
+
+                setUserReviews((currentReview) => {
+                  return [...currentReview, {
+                    reviewTitle: albumName,
+                    reviewerName: artistName,
+                    reviewDescription: description,
+                    profilePhoto: albumPhoto,
+                  }];
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      })
+    }
+  };
+
+  useEffect(() => {
+    if (userReviews.length === 0) {
+      getReviews();
+    }
+  }, [userReviews]);
 
   return (
     <div className={classes.favoriteContainer}>
