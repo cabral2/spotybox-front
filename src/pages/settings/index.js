@@ -1,6 +1,9 @@
 import { makeStyles } from "@mui/styles";
 import { TextField, Typography, CardMedia } from "@mui/material";
 import ButtonSpoty from "../../components/button";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   settingsPage: {
@@ -42,16 +45,53 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SettingsPage({
-  name,
-  lastName,
-  bio,
-  birthDate,
-  localization,
-  password,
-  image,
-}) {
+export default function SettingsPage() {
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [bio, setBio] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [localization, setLocalization] = useState("");
+  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const updateUser = async () => {
+    const baseURL = process.env.NEXT_PUBLIC_URL_API + 'user';
+    const user = {}
+
+    user.first_name = name
+    user.last_name = lastName
+    user.bio = bio
+    user.birth_date = birthDate
+    user.localization = localization
+    user.password = password
+    user.id = userId
+
+    await axios.put(baseURL, { user });
+  }
+
+  const getUserInfo = async () => {
+    let baseURL =
+      process.env.NEXT_PUBLIC_URL_API + 'user/email?email=' + Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const user = await axios
+      .get(baseURL)
+      .then((response) => response.data[0])
+      .catch((error) => console.error(error.message));
+
+    setUserId(user.id);
+    setName(user.first_name);
+    setLastName(user.last_name);
+    setBio(user.bio);
+    setBirthDate(user.birth_date.slice(0, 10));
+    setLocalization(user.localization);
+    setPassword(user.password);
+  };
+
+  useEffect(() => {
+    if (name === "") {
+      getUserInfo();
+    }
+  }, [name, lastName, bio, birthDate, localization, password]);
 
   return (
     <div className={classes.settingsPage}>
@@ -70,6 +110,7 @@ export default function SettingsPage({
             focused
             id="name"
             value={name}
+            onChange={(e) => setName(e.target.value)}
             type="text"
             autoComplete="name"
           />
@@ -79,6 +120,7 @@ export default function SettingsPage({
             focused
             id="lastName"
             value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             type="text"
             autoComplete="lastName"
           />
@@ -88,6 +130,7 @@ export default function SettingsPage({
             focused
             id="bio"
             value={bio}
+            onChange={(e) => setBio(e.target.value)}
             type="text"
             autoComplete="bio"
           />
@@ -96,7 +139,9 @@ export default function SettingsPage({
             color="secondary"
             focused
             id="birthDate"
+            format="dd/MM/yyyy"
             value={birthDate}
+            onChange={(e) => setBirthDate(e.target.value)}
             type="date"
             autoComplete="birthDate"
           />
@@ -106,6 +151,7 @@ export default function SettingsPage({
             focused
             id="localization"
             value={localization}
+            onChange={(e) => setLocalization(e.target.value)}
             type="text"
             autoComplete="localization"
           />
@@ -116,6 +162,7 @@ export default function SettingsPage({
             id="password"
             type="password"
             value={password}
+            onChange={(e) => setPassword(e.target.value)}
             autoComplete="password"
           />
         </div>
@@ -128,7 +175,7 @@ export default function SettingsPage({
             borderWidth={2}
             width={150}
             borderRadius={15}
-            onClick={() => console.log("Save")}
+            onClick={updateUser}
           ></ButtonSpoty>
           <ButtonSpoty
             value="Cancel"
@@ -138,7 +185,7 @@ export default function SettingsPage({
             borderWidth={2}
             width={150}
             borderRadius={15}
-            onClick={() => console.log("Cancel")}
+            onClick={getUserInfo}
           ></ButtonSpoty>
         </div>
       </div>
