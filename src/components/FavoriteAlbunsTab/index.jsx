@@ -95,6 +95,7 @@ export default function FavoriteAlbunsTab() {
 
   const getFavorites = async () => {
     const user = await handleUser();
+    console.log(user)
     let baseURL = process.env.NEXT_PUBLIC_URL_API + 'favorites/user';
     await axios
       .get(baseURL, { params: { id: user.id } })
