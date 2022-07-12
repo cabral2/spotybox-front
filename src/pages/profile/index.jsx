@@ -9,7 +9,7 @@ import ReviewsTab from "../../components/ReviewsTab";
 import FollowTab from "../../components/FollowTab";
 import ProfileHeader from "../../components/spot-profile-header/profileHeader";
 import { useEffect } from "react";
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
@@ -63,37 +63,88 @@ const useStyles = makeStyles((theme) => {
 
 export default function Profile() {
   const classes = useStyles();
-  const imageLink =
-    "https://m.media-amazon.com/images/I/71D22yQCN0L._AC_SX425_.jpg";
   const [profileDescription, setProfileDescription] = useState("");
   const [username, setUsername] = useState("");
   const [locale, setLocale] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [numAlbums, setNumAlbums] = useState("");
+  const [numReviews, setNumReviews] = useState("");
   const [tab, setTab] = useState(1);
 
+  const handleUser = async () => {
+    let baseURL =
+      process.env.NEXT_PUBLIC_URL_API + 'user/email?email=' + Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const user = await axios
+      .get(baseURL)
+      .then((response) => response.data[0])
+      .catch((error) => console.error(error.message));
+
+    return user;
+  };
+
   const getUserData = async () => {
-    const userEmail = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const userEmail = Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
     const baseURL = process.env.NEXT_PUBLIC_URL_API + 'user/email';
 
     await axios
       .get(baseURL, { params: { email: userEmail } })
       .then((response) => response.data)
       .then((data) => {
-        console.log(data[0])
         setProfileDescription(data[0].bio);
         setUsername(`${data[0].first_name} ${data[0].last_name}`);
         setLocale(data[0].localization);
+        setProfileImage(data[0]['photo-url']);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const getNumAlbuns = async () => {
+    const user = await handleUser();
+    let baseURL = process.env.NEXT_PUBLIC_URL_API + 'favorites/user';
+    await axios
+      .get(baseURL, { params: { id: user.id } })
+      .then((response) => response.data)
+      .then((data) => {
+        const albums_ids = data.map((favorite) => favorite.album_id);
+        setNumAlbums(albums_ids.length);
+      })
+      .catch((err) => console.error(err.message));
+  };
+
+  const getNumReviews = async () => {
+    const user = await handleUser();
+    let baseURL = process.env.NEXT_PUBLIC_URL_API + 'review/user/' + user.id;
+
+    await axios
+      .get(baseURL)
+      .then((response) => response.data)
+      .then((data) => {
+        setNumReviews(data.length);
+      })
+      .catch((err) => console.error(err.message));
+  }
+
+
   useEffect(() => {
-    const user = Cookie.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
+    const user = Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
     if (user) {
       getUserData();
     }
   }, [profileDescription, username, locale]);
+
+  useEffect(() => {
+    if (numAlbums === "") {
+      getNumAlbuns();
+    }
+  }, [numAlbums]);
+
+  useEffect(() => {
+    if (numReviews === "") {
+      getNumReviews();
+    }
+  }, [numAlbums]);
 
   const handleTabChange = (_, newTab) => {
     setTab(newTab);
@@ -102,14 +153,14 @@ export default function Profile() {
   return (
     <div className={classes.container}>
       <ProfileHeader
-        image={imageLink}
+        image={profileImage}
         name={username}
         bio={profileDescription}
         city={locale}
         numFollowing={5}
         numFollowers={5}
-        numAlbums={5}
-        numReviews={5}
+        numAlbums={numAlbums}
+        numReviews={numReviews}
       />
       <div className={classes.bottomContainer}>
         <Tabs
