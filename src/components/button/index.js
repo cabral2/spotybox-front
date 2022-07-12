@@ -1,27 +1,34 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import { useAppThemeContext } from "../../theme/ThemeContext";
+import React from 'react';
+import Button from '@mui/material/Button';
+import { useAppThemeContext } from '../../theme/ThemeContext';
 
 const buttonType = (props) => {
   if (props.unfollow)
     return {
-      value: "Unfollow",
-      color: "secondary",
-      borderColor: "#A0A0A0",
+      value: 'Unfollow',
+      color: 'secondary',
+      borderColor: '#A0A0A0',
       borderWidth: 2,
       width: 150,
       borderRadius: 15,
-      onClick: () => console.log("Unfollow"),
     };
   if (props.blockUser)
     return {
-      value: "Block User",
-      color: "secondary",
-      borderColor: "red",
+      value: 'Block User',
+      color: 'secondary',
+      borderColor: 'red',
       borderWidth: 2,
       width: 150,
       borderRadius: 15,
-      onClick: () => console.log("Block User"),
+    };
+  if (props.unblockUser)
+    return {
+      value: 'Unblock User',
+      color: 'secondary',
+      borderColor: 'red',
+      borderWidth: 2,
+      width: 150,
+      borderRadius: 15,
     };
 
   return props;
@@ -29,15 +36,7 @@ const buttonType = (props) => {
 
 export default function ButtonSpoty(props) {
   const { theme } = useAppThemeContext();
-  const {
-    value,
-    color,
-    borderColor,
-    borderWidth,
-    width,
-    borderRadius,
-    onClick,
-  } = buttonType(props);
+  const { value, color, borderColor, borderWidth, width, borderRadius } = buttonType(props);
 
   return (
     <Button
@@ -50,7 +49,7 @@ export default function ButtonSpoty(props) {
         width,
         borderRadius,
       }}
-      onClick={onClick}
+      onClick={props.onClick}
     >
       {value}
     </Button>

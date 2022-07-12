@@ -70,6 +70,9 @@ export default function Profile() {
   const [numAlbums, setNumAlbums] = useState("");
   const [numReviews, setNumReviews] = useState("");
   const [tab, setTab] = useState(1);
+  const [userId, setUserId] = useState(0);
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
 
   const handleUser = async () => {
     let baseURL =
@@ -94,6 +97,7 @@ export default function Profile() {
         setUsername(`${data[0].first_name} ${data[0].last_name}`);
         setLocale(data[0].localization);
         setProfileImage(data[0]['photo-url']);
+        setUserId(data[0].id);
       })
       .catch((err) => {
         console.log(err);
@@ -127,11 +131,32 @@ export default function Profile() {
   }
 
 
+  const handleFollow = async() => {
+    let baseURL = process.env.NEXT_PUBLIC_URL_API + `friends/followers?user_id=${userId}`;
+    const followers = await axios
+      .get(baseURL)
+      .then((response) => response.data)
+      .then((data) => data.number_followers)
+      .catch((error) => console.error(error.message));
+    if (followers !=0)
+      setFollowers(followers)
+    
+    baseURL = process.env.NEXT_PUBLIC_URL_API + `friends/following?user_id=${userId}`;
+    const following = await axios
+      .get(baseURL)
+      .then((response) => response.data)
+      .then((data) => data.number_following)
+      .catch((error) => console.error(error.message));
+    if (followers !=0)
+      setFollowing(following)
+  }
+
   useEffect(() => {
     const user = Cookies.get(process.env.NEXT_PUBLIC_USER_EMAIL_COOKIE);
     if (user) {
       getUserData();
     }
+    handleFollow();
   }, [profileDescription, username, locale]);
 
   useEffect(() => {
@@ -157,10 +182,10 @@ export default function Profile() {
         name={username}
         bio={profileDescription}
         city={locale}
-        numFollowing={5}
-        numFollowers={5}
         numAlbums={numAlbums}
         numReviews={numReviews}
+        numFollowing={following}
+        numFollowers={followers}
       />
       <div className={classes.bottomContainer}>
         <Tabs
@@ -178,8 +203,8 @@ export default function Profile() {
         <div className={classes.tabsContainer}>
           {tab === 1 ? <FavoriteAlbunsTab /> : <></>}
           {tab === 2 ? <ReviewsTab /> : <></>}
-          {tab === 3 ? <FollowTab type={"blockUser"} /> : <></>}
-          {tab === 4 ? <FollowTab type={"unfollow"} /> : <></>}
+          {tab === 3 ? <FollowTab type={"blockUser"} userId={userId}/> : <></>}
+          {tab === 4 ? <FollowTab type={"unfollow"} userId={userId}/> : <></>}
         </div>
       </div>
     </div>
